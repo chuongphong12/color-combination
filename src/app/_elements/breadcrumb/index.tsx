@@ -8,12 +8,14 @@ import {
 } from "@/components/ui/breadcrumb";
 import { breadcrumb } from "@/type/app-constants";
 import Link from "next/link";
+import { ContrastText } from "@/app/_elements";
 
 type CBreadcrumbProps = {
   list: breadcrumb[];
+  hex: string;
 };
 
-const CBreadcrumb = ({ list }: CBreadcrumbProps) => {
+const CBreadcrumb = ({ list, hex }: CBreadcrumbProps) => {
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -22,7 +24,9 @@ const CBreadcrumb = ({ list }: CBreadcrumbProps) => {
             <>
               <BreadcrumbItem key={index}>
                 <BreadcrumbLink asChild>
-                  <Link href={item.href}>{item.name}</Link>
+                  <ContrastText hex={hex}>
+                    <Link href={item.href}>{item.name}</Link>
+                  </ContrastText>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               {index === list.length - 1 ? null : <BreadcrumbSeparator />}

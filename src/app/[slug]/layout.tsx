@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 type HomeLayoutProps = {
   children: ReactNode;
   combination: ReactNode;
+  slug: string;
 };
 
 const HomeLayout = ({ children, combination }: HomeLayoutProps) => {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { JSX, useEffect, useState } from "react";
-import { getContrastYIQ } from "@/lib/utils";
+import { getContrastColor } from "@/lib/utils";
 
 type ContrastTextProps = {
   hex: string;
@@ -17,7 +17,7 @@ const ContrastText = ({
   const [textColor, setTextColor] = useState("text-black");
 
   useEffect(() => {
-    const contrastColor = getContrastYIQ(hex);
+    const contrastColor = getContrastColor(hex);
     setTextColor(contrastColor);
   }, [hex]);
 

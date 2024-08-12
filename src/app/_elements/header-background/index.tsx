@@ -1,19 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
 import top_bg from "@/assets/images/foreground.png";
-import { useRecoilValue } from "recoil";
-import { colorAtom } from "@/app/app.atom";
 import { cn } from "@/lib/utils";
+import { useParams } from "next/navigation";
+import { combinationData } from "@/type/combination";
 
-const HeaderBackgroundComponent = () => {
-  const color = useRecoilValue(colorAtom);
+const HeaderBackground = () => {
+  const params = useParams<{ slug: string }>();
+
+  const current = useMemo(
+    () =>
+      combinationData.find((color) => color.combination.slug === params.slug),
+    [params],
+  );
 
   return (
     <div
       style={{
-        backgroundColor: color.combination.color.hex,
+        backgroundColor: current?.combination.color.hex,
       }}
       className={cn(
         "absolute top-0 left-0 w-full h-[900px] overflow-hidden -z-10 transition-all duration-200",
@@ -33,4 +39,4 @@ const HeaderBackgroundComponent = () => {
   );
 };
 
-export default HeaderBackgroundComponent;
+export default HeaderBackground;

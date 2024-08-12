@@ -1,57 +1,55 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { JSX, useState } from "react";
 import { cn } from "@/lib/utils";
-import { ClassValue } from "clsx";
-import ContrastText from "@/app/_components/contrast-text";
+import { ContrastText } from "@/app/_elements";
+import { Check } from "lucide-react";
 
 type ColorPaletteProps = {
   colors: string[];
   canCopy?: boolean;
-  extraCn?: ClassValue[];
-};
+  height?: number;
+} & JSX.IntrinsicElements["div"];
 
 const ColorCombinationPalette = ({
   colors,
   canCopy = true,
-  extraCn,
+  height = 48,
+  className,
+  ...props
 }: ColorPaletteProps) => {
-  const [selectColor, setSelectedColor] = useState("");
+  const [isCopy, setIsCopy] = useState(false);
+
+  const handleCopyColor = async (color: string) => {
+    await navigator.clipboard.writeText(color);
+    setTimeout(() => setIsCopy(true), 300);
+  };
 
   return (
-    <div className={cn("w-full flex flex-row", ...(extraCn ? extraCn : []))}>
+    <div className={cn("w-full flex flex-row rounded", className)} {...props}>
       {colors.map((value, index) => (
         <div
           key={index + Math.random()}
           style={{ backgroundColor: value }}
           className={cn(
-            "group relative h-48 w-full flex flex-row justify-center items-center cursor-pointer",
+            "group relative w-full flex flex-row justify-center items-center cursor-pointer",
+            `h-${height}`,
           )}
-          onMouseEnter={(e) => {
-            e.stopPropagation();
-            setSelectedColor(value);
-          }}
           onMouseLeave={(e) => {
-            e.stopPropagation();
-            setSelectedColor("");
+            setIsCopy(false);
           }}
           onClick={
-            canCopy
-              ? () => {
-                  navigator.clipboard.writeText(value);
-                }
-              : undefined
+            canCopy && !isCopy ? () => handleCopyColor(value) : undefined
           }
         >
           {canCopy && (
             <ContrastText
               className={cn(
-                "transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out",
-                selectColor === value ? "block" : "hidden",
+                "text-xl transform translate-y-full opacity-0 delay-100 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-150 ease-in-out",
               )}
               hex={value}
             >
-              Copy
+              {isCopy ? <Check /> : "Copy"}
             </ContrastText>
           )}
         </div>

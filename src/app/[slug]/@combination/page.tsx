@@ -2,12 +2,24 @@
 
 import React, { useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import MainColorCombination from "@/app/[slug]/_components/main-color-combination";
-import RelatedCombination from "@/app/[slug]/_components/related-combination";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { colorAtom, combinationState } from "@/app/app.atom";
 import { useParams } from "next/navigation";
 import { ContrastText } from "@/app/_elements";
+import dynamic from "next/dynamic";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const MainColorCombination = dynamic(
+  () => import("@/app/[slug]/_components/main-color-combination"),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-[960px] h-[640px] rounded-xl" />,
+  },
+);
+
+const RelatedCombination = dynamic(
+  () => import("@/app/[slug]/_components/related-combination"),
+);
 
 const ColorCombinationPage = () => {
   const params = useParams<{ slug: string }>();
@@ -26,8 +38,12 @@ const ColorCombinationPage = () => {
 
   return (
     <div className={"flex flex-col items-center w-3/4 gap-24"}>
-      <MainColorCombination />
-      <RelatedCombination />
+      {params.slug && (
+        <>
+          <MainColorCombination slug={params.slug} />
+          <RelatedCombination />
+        </>
+      )}
       <div className={"flex flex-col gap-8 items-center"}>
         <p className={"text-[48px] font-[500] leading-tight text-center"}>
           Use this color palette and create beautiful design and documents!

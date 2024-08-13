@@ -8,13 +8,11 @@ import { Check } from "lucide-react";
 type ColorPaletteProps = {
   colors: string[];
   canCopy?: boolean;
-  height?: number;
 } & JSX.IntrinsicElements["div"];
 
 const ColorCombinationPalette = ({
   colors,
   canCopy = true,
-  height = 48,
   className,
   ...props
 }: ColorPaletteProps) => {
@@ -32,8 +30,7 @@ const ColorCombinationPalette = ({
           key={index + Math.random()}
           style={{ backgroundColor: value }}
           className={cn(
-            "group relative w-full flex flex-row justify-center items-center cursor-pointer",
-            `h-${height}`,
+            "group relative w-full h-full flex flex-row justify-center items-center cursor-pointer",
           )}
           onMouseLeave={(e) => {
             setIsCopy(false);

@@ -3,8 +3,7 @@ export type breadcrumb = {
   href: string;
 };
 
-export const breadcrumbList: breadcrumb[] = [
+export const breadcrumbs: breadcrumb[] = [
   { name: "Colors", href: "/" },
   { name: "Colors Palettes", href: "/" },
-  { name: "Pastel Blonde", href: "/" },
 ];

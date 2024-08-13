@@ -5,24 +5,26 @@ import Image from "next/image";
 import { colorAtom } from "@/app/app.atom";
 import { useRecoilValue } from "recoil";
 import ColorCombinationPalette from "@/app/[slug]/_components/color-combination-palette";
-import { useParams } from "next/navigation";
 import { combinationData } from "@/type/combination";
 import { LikeButton } from "@/app/_elements";
 import BottomColorIndicator from "@/app/[slug]/_components/bottom-colors";
 
-const MainColorCombination = () => {
-  const params = useParams<{ slug: string }>();
+type MainColorCombinationProps = {
+  slug: string;
+};
+
+const MainColorCombination = ({ slug }: MainColorCombinationProps) => {
   const color = useRecoilValue(colorAtom);
 
   const loadImage = useMemo(() => {
     const combination = combinationData.find(
-      (item) => item.combination.slug === params.slug,
+      (item) => item.combination.slug === slug,
     );
 
     return require(
       `@/assets/thumbnails/${combination?.combination.featuredImage.url}`,
     );
-  }, [params.slug]);
+  }, [slug]);
 
   return (
     <div className={"flex flex-col rounded-t-2xl overflow-hidden"}>
@@ -42,7 +44,7 @@ const MainColorCombination = () => {
       </div>
       <ColorCombinationPalette
         colors={color.combination.colors.map((val) => val.hex)}
-        className={"rounded-b-2xl overflow-hidden"}
+        className={"rounded-b-2xl overflow-hidden h-48"}
       />
       <BottomColorIndicator color={color} />
     </div>

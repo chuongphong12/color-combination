@@ -54,8 +54,9 @@ const RelatedCombination = () => {
                 <ColorCombinationPalette
                   colors={related.colors}
                   canCopy={false}
-                  height={24}
-                  className={"overflow-hidden group-hover:rounded-b-none z-10"}
+                  className={
+                    "overflow-hidden group-hover:rounded-b-none z-10 h-24"
+                  }
                 />
                 <div
                   className={
